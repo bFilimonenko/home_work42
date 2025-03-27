@@ -1,0 +1,57 @@
+.contacts-table {
+    display: flex;
+    flex-direction: column;
+    width: 80vw;
+    margin-top: 20px;
+}
+
+.contacts-table .header-container {
+    display: flex;
+    height: 50px;
+    font-weight: bold;
+    background: #ffd0cc;
+
+    &:nth-child(1) {
+        border-left: 1px solid #a10532;
+    }
+}
+
+.contacts-table .header-container p {
+    align-content: center;
+    color: black;
+    border-bottom: 1px solid #a10532;
+    border-right: 1px solid #a10532;
+    border-top: 1px solid #a10532;
+}
+
+.contact.table-row {
+    display: flex;
+    align-items: center;
+}
+
+.contact.table-row p {
+    height: 45px;
+    align-content: center;
+    border-right: 1px solid #005f81;
+    border-bottom: 1px solid #005f81;
+    /*border: 1px solid #00b7cc;*/
+}
+
+.first-name {
+    width: 20vw;
+    border-left: 1px solid #005f81;
+}
+
+.last-name {
+    width: 20vw;
+}
+
+.phone {
+    width: 25vw;
+    color: #005f81;
+}
+
+.actions {
+    width: 15vw;
+
+}
