@@ -1,13 +1,13 @@
 import './ContactsList.css';
 import { Delete, Edit } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
+import { PAGES } from '../../layouts/MainLayout/constants.js';
+import { useNavigate } from 'react-router';
+import { useContacts } from '../../contexts/ConstactsContext/index.js';
 
-import {PAGES} from "../PAGES.jsx";
-
-export const ContactsList = ({ contacts, setContacts, setSelectedContact, setRouting }) => {
-  const deleteContact = (id) => {
-    setContacts(contacts.filter((contact) => contact.id !== id));
-  };
+export const ContactsList = () => {
+  const navigate = useNavigate();
+  const { contacts, deleteContact, setSelectedContact } = useContacts();
 
   return (
     <>
@@ -30,7 +30,7 @@ export const ContactsList = ({ contacts, setContacts, setSelectedContact, setRou
                 color="info"
                 onClick={() => {
                   setSelectedContact(contact);
-                  setRouting(PAGES.ADD);
+                  navigate(PAGES.ADD);
                 }}
               >
                 <Edit />

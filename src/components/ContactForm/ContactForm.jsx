@@ -3,9 +3,14 @@ import { Button, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useMask } from '@react-input/mask';
 
-import {PAGES} from "../PAGES.jsx";
+import { PAGES } from '../../layouts/MainLayout/constants.js';
+import { useContacts } from '../../contexts/ConstactsContext/index.js';
+import { useNavigate } from 'react-router';
 
-export const ContactForm = ({ contacts, setContacts, setRouting, selectedContact }) => {
+export const ContactForm = () => {
+  const { saveContact, selectedContact } = useContacts();
+  const navigate = useNavigate();
+
   const [formValue, setFormValue] = useState({
     firstName: '',
     lastName: '',
@@ -23,6 +28,19 @@ export const ContactForm = ({ contacts, setContacts, setRouting, selectedContact
     mask: '+38(___)-___-__-__',
     replacement: { _: /\d/ },
   });
+
+  const handleSave = () => {
+    const validationErrors = saveContact(formValue);
+
+    if (validationErrors) {
+      setValidationError(
+          validationErrors.reduce((acc, key) => {
+          acc[key] = 'This field is required';
+          return acc;
+        }, {}),
+      );
+    }
+  };
 
   const handleChange = (event) => {
     switch (event.target.name) {
@@ -46,50 +64,6 @@ export const ContactForm = ({ contacts, setContacts, setRouting, selectedContact
         setFormValue({ ...formValue, phone: `${event.target.value}` });
         break;
     }
-  };
-
-  const saveContact = () => {
-    const invalidKeys = Object.keys(formValue).filter((key) => !formValue[key]);
-
-    if (invalidKeys.length > 0) {
-      setValidationError(
-        invalidKeys.reduce((acc, key) => {
-          acc[key] = 'This field is required';
-          return acc;
-        }, {}),
-      );
-      return;
-    }
-
-    if (selectedContact) {
-      setContacts(
-        contacts.reduce((acc, contact) => {
-          if (contact.id !== selectedContact.id) {
-            acc.push(contact);
-          } else {
-            acc.push({
-              id: contact.id,
-              ...formValue,
-            });
-          }
-          return acc;
-        }, []),
-      );
-      setRouting(PAGES.LIST);
-      return;
-    }
-
-    setContacts([
-      ...contacts,
-      {
-        id: contacts.at(-1).id + 1,
-        firstName: formValue.firstName,
-        lastName: formValue.lastName,
-        phone: formValue.phone,
-      },
-    ]);
-
-    setRouting(PAGES.LIST);
   };
 
   useEffect(() => {
@@ -135,13 +109,13 @@ export const ContactForm = ({ contacts, setContacts, setRouting, selectedContact
         />
 
         <div className="form-control">
-          <Button variant="contained" color="primary" onClick={() => setRouting(PAGES.LIST)}>
+          <Button variant="contained" color="primary" onClick={() => navigate(PAGES.LIST)}>
             Cancel
           </Button>
           <Button
             variant="contained"
             color="success"
-            onClick={saveContact}
+            onClick={handleSave}
             disabled={Object.values(validationError).some((err) => !!err)}
           >
             Save
