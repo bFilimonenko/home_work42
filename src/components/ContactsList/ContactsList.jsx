@@ -4,11 +4,13 @@ import { IconButton } from '@mui/material';
 import { PAGES } from '../../layouts/MainLayout/constants.js';
 import { useNavigate } from 'react-router';
 import { useContacts } from '../../contexts/ConstactsContext/index.js';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { DeleteContactConfirmation } from '../DeleteContactConfirmation/DeleteContactConfirmation.jsx';
 
 export const ContactsList = () => {
   const navigate = useNavigate();
-  const { contacts, deleteContact, setSelectedContact } = useContacts();
+  const [confirmationOpen, setConfirmationOpen] = useState(false);
+  const { contacts, setSelectedContact } = useContacts();
 
   useEffect(() => {
     setSelectedContact(null);
@@ -41,13 +43,23 @@ export const ContactsList = () => {
                 <Edit />
               </IconButton>
 
-              <IconButton color="error" onClick={() => deleteContact(contact.id)}>
+              <IconButton
+                color="error"
+                onClick={() => {
+                  setSelectedContact(contact);
+                  setConfirmationOpen(true);
+                }}
+              >
                 <Delete />
               </IconButton>
             </p>
           </div>
         ))}
       </div>
+      <DeleteContactConfirmation
+        open={confirmationOpen}
+        handleClose={() => setConfirmationOpen(false)}
+      />
     </>
   );
 };

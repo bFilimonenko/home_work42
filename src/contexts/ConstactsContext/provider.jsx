@@ -8,8 +8,8 @@ export const ContactsProvider = ({ children }) => {
   const [selectedContact, setSelectedContact] = useState(null);
   const navigate = useNavigate();
 
-  const deleteContact = (id) => {
-    setContacts(contacts.filter((contact) => contact.id !== id));
+  const deleteContact = () => {
+    setContacts(contacts.filter((contact) => contact.id !== selectedContact.id));
   };
 
   const saveContact = (formValue) => {
