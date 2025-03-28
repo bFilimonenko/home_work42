@@ -1,1 +1,1 @@
-export * from './component.jsx'
+export * from './component.jsx';

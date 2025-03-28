@@ -34,7 +34,7 @@ export const ContactForm = () => {
 
     if (validationErrors) {
       setValidationError(
-          validationErrors.reduce((acc, key) => {
+        validationErrors.reduce((acc, key) => {
           acc[key] = 'This field is required';
           return acc;
         }, {}),

@@ -1,4 +1,4 @@
 export const PAGES = {
-    LIST: '/list',
-    ADD: '/form',
+  LIST: '/list',
+  ADD: '/form',
 };
