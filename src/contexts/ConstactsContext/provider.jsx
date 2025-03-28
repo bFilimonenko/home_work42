@@ -2,14 +2,21 @@ import { ContactsContext } from './context.jsx';
 import { useEffect, useState } from 'react';
 import { PAGES } from '../../layouts/MainLayout/constants.js';
 import { useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
 
 export const ContactsProvider = ({ children }) => {
   const [contacts, setContacts] = useState([]);
   const [selectedContact, setSelectedContact] = useState(null);
   const navigate = useNavigate();
 
+  const notify = (message) => {
+    toast.success(message);
+  };
+
   const deleteContact = () => {
     setContacts(contacts.filter((contact) => contact.id !== selectedContact.id));
+    setSelectedContact(null);
+    notify('Contact successfully deleted');
   };
 
   const saveContact = (formValue) => {
@@ -34,6 +41,7 @@ export const ContactsProvider = ({ children }) => {
         }, []),
       );
       navigate(PAGES.LIST);
+      notify('Contact successfully changed');
       return;
     }
 
@@ -46,8 +54,8 @@ export const ContactsProvider = ({ children }) => {
         phone: formValue.phone,
       },
     ]);
-
     navigate(PAGES.LIST);
+    notify('Contact saved successfully');
   };
 
   useEffect(() => {
