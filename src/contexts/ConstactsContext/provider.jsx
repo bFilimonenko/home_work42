@@ -51,36 +51,19 @@ export const ContactsProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    const contactsFromLocalStorage = localStorage.getItem('contacts');
-
-    if (contactsFromLocalStorage) {
-      setContacts(JSON.parse(contactsFromLocalStorage));
-      localStorage.removeItem('contacts');
-    } else {
-      fetch('https://jsonplaceholder.typicode.com/users')
-        .then((res) => res.json())
-        .then((data) => {
-          setContacts(
-            data.map((el) => ({
-              id: el.id,
-              firstName: el.name.split(' ')[0],
-              lastName: el.name.split(' ')[1],
-              phone: el.phone,
-            })),
-          );
-        });
-    }
-
-    return () => {
-      localStorage.setItem('contacts', JSON.stringify(contacts));
-    };
+    fetch('https://jsonplaceholder.typicode.com/users')
+      .then((res) => res.json())
+      .then((data) => {
+        setContacts(
+          data.map((el) => ({
+            id: el.id,
+            firstName: el.name.split(' ')[0],
+            lastName: el.name.split(' ')[1],
+            phone: el.phone,
+          })),
+        );
+      });
   }, []);
-
-  useEffect(() => {
-    if (!contacts.length) return;
-
-    localStorage.setItem('contacts', JSON.stringify(contacts));
-  }, [contacts]);
 
   return (
     <ContactsContext.Provider
