@@ -4,10 +4,15 @@ import { IconButton } from '@mui/material';
 import { PAGES } from '../../layouts/MainLayout/constants.js';
 import { useNavigate } from 'react-router';
 import { useContacts } from '../../contexts/ConstactsContext/index.js';
+import { useEffect } from 'react';
 
 export const ContactsList = () => {
   const navigate = useNavigate();
   const { contacts, deleteContact, setSelectedContact } = useContacts();
+
+  useEffect(() => {
+    setSelectedContact(null);
+  }, []);
 
   return (
     <>
